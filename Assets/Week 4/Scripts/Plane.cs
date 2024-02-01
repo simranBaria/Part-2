@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +16,8 @@ public class Plane : MonoBehaviour
     public AnimationCurve landing;
     private float timerValue;
     public Sprite[] sprites = new Sprite[4];
+    SpriteRenderer spriteRenderer;
+    public float tooClose = 1f;
 
     private void Start()
     {
@@ -28,7 +31,8 @@ public class Plane : MonoBehaviour
         transform.Rotate(0, 0, Random.Range(0, 360));
         speed = Random.Range(1, 3);
 
-        GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, 3)];
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprites[Random.Range(0, 3)];
     }
 
     private void FixedUpdate()
@@ -92,5 +96,25 @@ public class Plane : MonoBehaviour
             lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
             lastPosition = newPosition;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        spriteRenderer.color = Color.red;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        spriteRenderer.color = Color.white;
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
+    {
+        if (Vector3.Distance(transform.position, collision.transform.position) < tooClose) Destroy(gameObject);
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }
