@@ -18,6 +18,7 @@ public class Plane : MonoBehaviour
     public Sprite[] sprites = new Sprite[4];
     SpriteRenderer spriteRenderer;
     public float tooClose = 1f;
+    public bool onLand = false;
 
     private void Start()
     {
@@ -51,13 +52,15 @@ public class Plane : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+        if(onLand)
         {
             timerValue += 0.5f * Time.deltaTime;
             float interpolation = landing.Evaluate(timerValue);
-            if (transform.localScale.z  < 0.1f)
+
+            if (transform.localScale.z < 0.1f)
             {
                 Destroy(gameObject);
+                GameObject.Find("Runway").GetComponent<Runway>().playerScore++;
             }
             transform.localScale = Vector3.Lerp(Vector3.one, Vector3.zero, interpolation);
         }
@@ -69,10 +72,7 @@ public class Plane : MonoBehaviour
             {
                 points.RemoveAt(0);
                 
-                for(int i = 0; i < lineRenderer.positionCount - 2; i++)
-                {
-                    lineRenderer.SetPosition(i, lineRenderer.GetPosition(i + 1));
-                }
+                for(int i = 0; i < lineRenderer.positionCount - 2; i++) lineRenderer.SetPosition(i, lineRenderer.GetPosition(i + 1));
 
                 lineRenderer.positionCount--;
             }
@@ -100,7 +100,7 @@ public class Plane : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        spriteRenderer.color = Color.red;
+        if (collision.gameObject.ToString().Equals(this.gameObject.ToString())) spriteRenderer.color = Color.red;
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -110,7 +110,7 @@ public class Plane : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (Vector3.Distance(transform.position, collision.transform.position) < tooClose) Destroy(gameObject);
+        if (collision.gameObject.ToString().Equals(this.gameObject.ToString())) if (Vector3.Distance(transform.position, collision.transform.position) < tooClose) Destroy(gameObject);
     }
 
     void OnBecameInvisible()
