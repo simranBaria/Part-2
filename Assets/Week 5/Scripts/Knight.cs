@@ -12,6 +12,7 @@ public class Knight : MonoBehaviour
     bool clickingOnSelf = false;
     public float health;
     public float maxHealth = 5;
+    bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,8 @@ public class Knight : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isDead) return;
+        
         movement = destination - (Vector2)transform.position;
 
         if (movement.magnitude < 0.1)
@@ -51,6 +54,7 @@ public class Knight : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (isDead) return;
         clickingOnSelf = true;
         SendMessage("TakeDamage", 1);
     }
@@ -67,10 +71,12 @@ public class Knight : MonoBehaviour
 
         if(health == 0)
         {
+            isDead = true;
             animator.SetTrigger("Death");
         }
         else
         {
+            isDead = false;
             animator.SetTrigger("TakeDamage");
         }
     }
