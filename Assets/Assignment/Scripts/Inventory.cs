@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour
     public GameObject arrow;
     Animator arrowAnimator;
     bool open = false, opening = false, closing = false;
+    public bool hasItemSelected = false;
+    public string selectedItem = "";
     public RectTransform closedPosition, openPosition;
     public AnimationCurve animationCurve;
     float lerpTimer = 0;
@@ -22,6 +24,7 @@ public class Inventory : MonoBehaviour
         arrowAnimator = arrow.GetComponent<Animator>();
         position = GetComponent<RectTransform>();
 
+        // Deactivate all items
         for (int i = 0; i < items.Length; i++)
         {
             items[i].SetActive(false);
@@ -31,24 +34,28 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(opening)
+        // Opening animation
+        if (opening)
         {
             float interpolation = animationCurve.Evaluate(lerpTimer);
             position.anchoredPosition = Vector2.Lerp(closedPosition.anchoredPosition, openPosition.anchoredPosition, interpolation);
             lerpTimer += Time.deltaTime;
 
+            // Stop animation once the inventory has reached it's position
             if (position.anchoredPosition == openPosition.anchoredPosition)
             {
                 lerpTimer = 0;
                 opening = false;
             }
         }
-        else if(closing)
+        // Closing animation
+        else if (closing)
         {
             float interpolation = animationCurve.Evaluate(lerpTimer);
             position.anchoredPosition = Vector2.Lerp(openPosition.anchoredPosition, closedPosition.anchoredPosition, interpolation);
             lerpTimer += Time.deltaTime;
 
+            // Stop the animation once the inventory has reached it's position
             if (position.anchoredPosition == closedPosition.anchoredPosition)
             {
                 lerpTimer = 0;
@@ -57,12 +64,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    // Method to toggle inventory
     public void Toggle()
     {
         if (open) CloseInventory();
         else OpenInventory();
     }
 
+    // Method to open the inventory
     private void OpenInventory()
     {
         open = true;
@@ -70,6 +79,7 @@ public class Inventory : MonoBehaviour
         opening = true;
     }
 
+    // Method to close the inventory
     private void CloseInventory()
     {
         open = false;
@@ -77,23 +87,60 @@ public class Inventory : MonoBehaviour
         closing = true;
     }
 
+    // Method to add an item to the inventory
     public void AddItem(string item)
     {
-        for(int i = 0; i < items.Length; i++)
+        // Find which item is being added
+        for (int i = 0; i < items.Length; i++)
         {
-            if(item.Equals(items[i].name))
+            if (item.Equals(items[i].name))
             {
+                // Check if the inventory is full
+                // In the game this should never happen but this is here for testing and just in case
                 if (currentEmpty >= slots.Length)
                 {
                     Debug.Log("Inventory full");
                     return;
                 }
+
+                // Put the item in the inventory
                 RectTransform itemPosition = items[i].GetComponent<RectTransform>();
                 RectTransform slotPosition = slots[currentEmpty].GetComponent<RectTransform>();
                 itemPosition.anchoredPosition = slotPosition.anchoredPosition;
                 items[i].SetActive(true);
+
+                // Set the next slot in the inventory as the next empty one
                 currentEmpty++;
             }
         }
+    }
+
+    // Method to select an item
+    public void SelectItem(string item)
+    {
+        // Check if there is already an item selected
+        if(hasItemSelected)
+        {
+            // Find the selected item
+            for (int i = 0; i < items.Length; i++)
+            {
+                // Deselect it
+                if (items[i].name.Equals(selectedItem))
+                {
+                    items[i].GetComponent<InventoryItem>().ItemSelected();
+                }
+            }
+        }
+
+        // Select the item
+        selectedItem = item;
+        hasItemSelected = true;
+    }
+
+    // Method to deselect an item
+    public void DeselectItem()
+    {
+        selectedItem = "";
+        hasItemSelected = false;
     }
 }

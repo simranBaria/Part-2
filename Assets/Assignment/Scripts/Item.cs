@@ -13,7 +13,6 @@ public class Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        glow.GetComponent<GameObject>();
         animator = glow.GetComponent<Animator>();
         glowSR = glow.GetComponent<SpriteRenderer>();
     }
@@ -26,14 +25,17 @@ public class Item : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        // Start the glowing animation when the mouse hovers over the object
         animator.SetTrigger("Hovering");
     }
 
     private void OnMouseExit()
     {
+        // Stop the glowing animation when the mouse leaves the object
         animator.SetTrigger("Stop");
     }
 
+    // Method to change the glowing sprite
     public void SetSprite(Sprite newSprite)
     {
         glowSR.sprite = newSprite;
