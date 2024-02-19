@@ -42,6 +42,7 @@ public class Laptop : MonoBehaviour
             unlocked = true;
             Debug.Log("You turned on the laptop");
             sr.sprite = onSprite;
+            inventory.GetComponent<Inventory>().RemoveItem("Password");
         }
         else
         {

@@ -36,7 +36,7 @@ public class Pipe : MonoBehaviour
             // Fix the pipe
             pipeFixed = true;
             Debug.Log("You fixed the pipe");
-            
+            inventory.GetComponent<Inventory>().RemoveItem("Wrench");
         }
         else
         {

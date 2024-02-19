@@ -17,11 +17,18 @@ public class Acid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Selected()
     {
-        beaker.GetComponent<InventoryItem>().SetDeactivated(true);
+        if (gameObject.GetComponent<InventoryItem>().selected && beaker.GetComponent<Beaker>().filledWithWater)
+        {
+            beaker.GetComponent<InventoryItem>().SetDeactivated(true);
+        }
+        else if (!gameObject.GetComponent<InventoryItem>().selected)
+        {
+            beaker.GetComponent<InventoryItem>().SetDeactivated(false);
+        }
     }
 }

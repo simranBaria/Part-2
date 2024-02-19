@@ -47,6 +47,7 @@ public class Beaker : MonoBehaviour
             image.sprite = acidSprite;
             Debug.Log("You created hydrochloric acid");
             SendMessage("SetDeactivated", false);
+            inventory.GetComponent<Inventory>().RemoveItem("Acid");
         }
     }
 }

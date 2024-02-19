@@ -10,12 +10,14 @@ public class Vent : MonoBehaviour
     public bool open = false;
     SpriteRenderer sr;
     public Sprite closedSprite, openSprite;
+    bool keyTaken;
 
     // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         sr.sprite = closedSprite;
+        keyTaken = false;
     }
 
     // Update is called once per frame
@@ -26,6 +28,12 @@ public class Vent : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(open && !keyTaken)
+        {
+            inventory.GetComponent<Inventory>().AddItem("Key");
+            keyTaken = true;
+        }
+
         // Check if the beaker is selected
         if (inventory.GetComponent<Inventory>().selectedItem.Equals("Beaker") && beaker.GetComponent<Beaker>().filledWithAcid)
         {
@@ -33,6 +41,7 @@ public class Vent : MonoBehaviour
             open = true;
             Debug.Log("You melted the bars");
             sr.sprite = openSprite;
+            inventory.GetComponent<Inventory>().RemoveItem("Beaker");
         }
         else
         {

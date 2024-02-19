@@ -97,7 +97,7 @@ public class Inventory : MonoBehaviour
             {
                 // Check if the inventory is full
                 // In the game this should never happen but this is here for testing and just in case
-                if (currentEmpty >= slots.Length)
+                if (EmptySlotLocation() >= slots.Length)
                 {
                     Debug.Log("Inventory full");
                     return;
@@ -105,12 +105,9 @@ public class Inventory : MonoBehaviour
 
                 // Put the item in the inventory
                 RectTransform itemPosition = items[i].GetComponent<RectTransform>();
-                RectTransform slotPosition = slots[currentEmpty].GetComponent<RectTransform>();
+                RectTransform slotPosition = slots[EmptySlotLocation()].GetComponent<RectTransform>();
                 itemPosition.anchoredPosition = slotPosition.anchoredPosition;
                 items[i].SetActive(true);
-
-                // Set the next slot in the inventory as the next empty one
-                currentEmpty++;
             }
         }
     }
@@ -142,5 +139,42 @@ public class Inventory : MonoBehaviour
     {
         selectedItem = "";
         hasItemSelected = false;
+    }
+
+    public void RemoveItem(string item)
+    {
+        // Find the item
+        for (int i = 0; i < items.Length; i++)
+        {
+            // Destroy it
+            if (items[i].name.Equals(selectedItem))
+            {
+                items[i].SetActive(false);
+                items[i].GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            }
+        }
+    }
+
+    public int EmptySlotLocation()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (IsSlotEmpty(i)) return i;
+        }
+
+        return 5;
+    }
+
+    public bool IsSlotEmpty(int slot)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            RectTransform slotPosition = slots[slot].GetComponent<RectTransform>();
+            RectTransform itemPosition = items[i].GetComponent<RectTransform>();
+
+            if (slotPosition.anchoredPosition == itemPosition.anchoredPosition) return false;
+        }
+
+        return true;
     }
 }
