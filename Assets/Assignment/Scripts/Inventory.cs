@@ -8,18 +8,24 @@ public class Inventory : MonoBehaviour
 {
     public GameObject arrow;
     Animator arrowAnimator;
-    bool open, opening = false, closing = false;
+    bool open = false, opening = false, closing = false;
     public RectTransform closedPosition, openPosition;
     public AnimationCurve animationCurve;
     float lerpTimer = 0;
     RectTransform position;
+    public GameObject[] slots = new GameObject[4], items = new GameObject[5];
+    public int currentEmpty = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         arrowAnimator = arrow.GetComponent<Animator>();
-        open = false;
         position = GetComponent<RectTransform>();
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -69,5 +75,25 @@ public class Inventory : MonoBehaviour
         open = false;
         arrowAnimator.SetTrigger("Click");
         closing = true;
+    }
+
+    public void AddItem(string item)
+    {
+        for(int i = 0; i < items.Length; i++)
+        {
+            if(item.Equals(items[i].name))
+            {
+                if (currentEmpty >= slots.Length)
+                {
+                    Debug.Log("Inventory full");
+                    return;
+                }
+                RectTransform itemPosition = items[i].GetComponent<RectTransform>();
+                RectTransform slotPosition = slots[currentEmpty].GetComponent<RectTransform>();
+                itemPosition.anchoredPosition = slotPosition.anchoredPosition;
+                items[i].SetActive(true);
+                currentEmpty++;
+            }
+        }
     }
 }
