@@ -8,18 +8,6 @@ public class Sink : MonoBehaviour
 {
     public GameObject inventory, pipe, beaker, clipboard;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown()
     {
         // Check if the pipe is fixed
@@ -31,14 +19,10 @@ public class Sink : MonoBehaviour
                 // Fill the beaker with water
                 beaker.SendMessage("FillWithWater");
             }
-            else
-            {
-                clipboard.SendMessage("ChangeText", "The water is running now.");
-            }
+            // The sink is working
+            else clipboard.SendMessage("ChangeText", "The water is running now.");
         }
-        else
-        {
-            clipboard.SendMessage("ChangeText", "The sink isn't working.");
-        }
+        // Sink is broken
+        else clipboard.SendMessage("ChangeText", "The sink isn't working.");
     }
 }

@@ -20,12 +20,15 @@ public class Acid : MonoBehaviour
 
     }
 
+    // Method to deactivate the beaker as a clickable icon when selected
     public void Selected()
     {
+        // Only deactivate if the beaker is filled with water
         if (gameObject.GetComponent<InventoryItem>().selected && beaker.GetComponent<Beaker>().filledWithWater)
         {
             beaker.GetComponent<InventoryItem>().SetDeactivated(true);
         }
+        // Activate the beaker again when not selected
         else if (!gameObject.GetComponent<InventoryItem>().selected)
         {
             beaker.GetComponent<InventoryItem>().SetDeactivated(false);

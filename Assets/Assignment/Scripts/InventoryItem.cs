@@ -13,21 +13,19 @@ public class InventoryItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = glow.GetComponent<Animator>();
+
         // Set the item to unselected
         selected = false;
-        animator = glow.GetComponent<Animator>();
+
+        // Set the item to activated
         deactivated = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     // Method to change whether the item is selected
     public void ItemSelected()
     {
+        // Don't do anything if the item is deactivated
         if (deactivated) return;
 
         if(selected)
@@ -50,6 +48,7 @@ public class InventoryItem : MonoBehaviour
         }
     }
 
+    // Method to set whether the item is activated
     public void SetDeactivated(bool state)
     {
         deactivated = state;

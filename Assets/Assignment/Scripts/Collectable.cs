@@ -19,16 +19,12 @@ public class Collectable : MonoBehaviour
     {
         // Turn off the item
         gameObject.SetActive(false);
+
+        // Variables for the movement animation
         showcase = false;
         middle = Vector2.zero;
         end = new Vector2(-5, 5);
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void FixedUpdate()
@@ -36,13 +32,15 @@ public class Collectable : MonoBehaviour
         // Animation to show the item
         if(showcase)
         {
+            // Move the item to the middle of the screen
             movement = middle - (Vector2)transform.position;
 
+            // Only move if the magnitude is big enough
             if (movement.magnitude > 0.1)
             {
+                // Lerp the speed
                 float velocity = speed * animationCurve.Evaluate(Time.deltaTime);
                 rb.MovePosition(rb.position + velocity * Time.deltaTime * movement.normalized);
-                
             }
             else
             {
@@ -54,10 +52,13 @@ public class Collectable : MonoBehaviour
         // Animation to send the item to the inventory
         if(sendToInventory)
         {
+            // Move the item to the corner of the screen
             movement = end - (Vector2)transform.position;
 
+            // Only move if the magnitude is big enough
             if (movement.magnitude > 0.1)
             {
+                // Lerp the speed
                 float velocity = speed * animationCurve.Evaluate(Time.deltaTime);
                 rb.MovePosition(rb.position + velocity * Time.deltaTime * movement.normalized);
             }
@@ -93,6 +94,7 @@ public class Collectable : MonoBehaviour
         containerName = name;
     }
 
+    // Method to display a message based on the item
     private void ShowMessage()
     {
         switch(gameObject.name)
@@ -119,6 +121,7 @@ public class Collectable : MonoBehaviour
         }
     }
 
+    // Method to set whether to move the item
     public void ShowItem(bool show)
     {
         showcase = show;

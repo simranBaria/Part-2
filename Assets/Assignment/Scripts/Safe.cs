@@ -15,18 +15,9 @@ public class Safe : MonoBehaviour
         gameObject.GetComponent<OpenItem>().locked = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown()
     {
         // Check if the safe is locked
-        if(gameObject.GetComponent<OpenItem>().locked)
-        {
-            clipboard.SendMessage("ChangeText", "The safe is locked.");
-        }
+        if(gameObject.GetComponent<OpenItem>().locked) clipboard.SendMessage("ChangeText", "The safe is locked.");
     }
 }

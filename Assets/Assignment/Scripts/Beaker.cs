@@ -14,6 +14,7 @@ public class Beaker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Variables for changing the sprite
         image = icon.GetComponent<Image>();
         image.sprite = beakerSprite;
         empty = true;
@@ -21,16 +22,13 @@ public class Beaker : MonoBehaviour
         filledWithAcid = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // Method to fill the beaker with water
     public void FillWithWater()
     {
+        // Only fill with water if the beaker is empty
         if(empty)
         {
+            // Change sprite
             empty = false;
             filledWithWater = true;
             image.sprite = waterSprite;
@@ -38,15 +36,22 @@ public class Beaker : MonoBehaviour
         }
     }
 
+    // Method to fill the beaker with acid
     public void FillWithAcid()
     {
+        // Only fill with acid if the beaker has water and the acid item is selected
         if(filledWithWater && inventory.GetComponent<Inventory>().selectedItem.Equals("Acid"))
         {
+            // Change sprite
             filledWithWater = false;
             filledWithAcid = true;
             image.sprite = acidSprite;
             clipboard.SendMessage("ChangeText", "You created hydrochloric acid.");
+
+            // Activate the item again
             SendMessage("SetDeactivated", false);
+
+            // Remove the acid from the inventory
             inventory.GetComponent<Inventory>().RemoveItem("Acid");
         }
     }

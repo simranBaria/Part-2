@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour
         // Opening animation
         if (opening)
         {
+            // Lerp the position with the animation curve
             float interpolation = animationCurve.Evaluate(lerpTimer);
             position.anchoredPosition = Vector2.Lerp(closedPosition.anchoredPosition, openPosition.anchoredPosition, interpolation);
             lerpTimer += Time.deltaTime;
@@ -50,6 +51,7 @@ public class Inventory : MonoBehaviour
         // Closing animation
         else if (closing)
         {
+            // Lerp the position with the animation curve
             float interpolation = animationCurve.Evaluate(lerpTimer);
             position.anchoredPosition = Vector2.Lerp(openPosition.anchoredPosition, closedPosition.anchoredPosition, interpolation);
             lerpTimer += Time.deltaTime;
@@ -140,47 +142,53 @@ public class Inventory : MonoBehaviour
         hasItemSelected = false;
     }
 
+    // Method to remove an item from the inventory
     public void RemoveItem(string item)
     {
         // Find the item
         for (int i = 0; i < items.Length; i++)
         {
             // Destroy it
-            if (items[i].name.Equals(selectedItem))
+            if (items[i].name.Equals(item))
             {
                 items[i].SetActive(false);
                 items[i].GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                // Set the selected item to nothing
                 selectedItem = "";
             }
         }
     }
 
+    // Method to find the highest empty slot location
     public int EmptySlotLocation()
     {
+        // Loop through the slots
         for (int i = 0; i < slots.Length; i++)
         {
+            // Check if the slot is empty
+            // Return it's index if it is
             if (IsSlotEmpty(i)) return i;
         }
 
+        // Return 5 to indicate that the inventory is full
         return 5;
     }
 
+    // Method to check if the given slot is empty
     public bool IsSlotEmpty(int slot)
     {
+        // Loop through the items
         for (int i = 0; i < items.Length; i++)
         {
+            // Check if this item is in the given slot
             RectTransform slotPosition = slots[slot].GetComponent<RectTransform>();
             RectTransform itemPosition = items[i].GetComponent<RectTransform>();
 
             if (slotPosition.anchoredPosition == itemPosition.anchoredPosition) return false;
         }
 
+        // Slot is empty
         return true;
-    }
-
-    public Vector2 GetEmptySlotPosition()
-    {
-        RectTransform position = slots[EmptySlotLocation()].GetComponent<RectTransform>();
-        return Camera.main.WorldToScreenPoint(position.position);
     }
 }

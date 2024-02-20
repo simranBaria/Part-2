@@ -9,18 +9,6 @@ public class Pipe : MonoBehaviour
     public GameObject inventory, clipboard;
     public bool pipeFixed = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown()
     {
         // The pipe is fixed
@@ -38,6 +26,7 @@ public class Pipe : MonoBehaviour
             clipboard.SendMessage("ChangeText", "You fixed the pipe.");
             inventory.GetComponent<Inventory>().RemoveItem("Wrench");
         }
+        // Pipe is broken
         else
         {
             clipboard.SendMessage("ChangeText", "The pipe is broken.");

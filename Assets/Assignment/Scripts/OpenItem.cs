@@ -18,14 +18,10 @@ public class OpenItem : MonoBehaviour
         // Set the container to closed
         open = false;
         sr = GetComponent<SpriteRenderer>();
+
+        // Variables for the item inside
         collectable.GetComponent<Collectable>().SetContainerName(gameObject.name);
         itemCollected = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnMouseDown()
@@ -33,6 +29,7 @@ public class OpenItem : MonoBehaviour
         // Do not open if the container is locked
         if (locked) return;
 
+        // Toggle whether the container is open
         open = !open;
         if (open)
         {

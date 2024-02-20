@@ -8,20 +8,9 @@ public class Handle : MonoBehaviour
 {
     public GameObject inventory, clipboard, manager;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown()
     {
+        // Load the end screen if the player uses the key
         if (inventory.GetComponent<Inventory>().selectedItem.Equals("Key"))
         {
             manager.SendMessage("NextScene");

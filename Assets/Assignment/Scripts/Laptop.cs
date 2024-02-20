@@ -14,14 +14,9 @@ public class Laptop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Sprite variables
         sr = GetComponent<SpriteRenderer>();
         sr.sprite = offSprite;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnMouseDown()
@@ -44,9 +39,7 @@ public class Laptop : MonoBehaviour
             sr.sprite = onSprite;
             inventory.GetComponent<Inventory>().RemoveItem("Password");
         }
-        else
-        {
-            clipboard.SendMessage("ChangeText", "You don't know the password.");
-        }
+        // Laptop is locked
+        else clipboard.SendMessage("ChangeText", "You don't know the password.");
     }
 }
