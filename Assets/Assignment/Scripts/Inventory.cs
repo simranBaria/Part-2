@@ -16,7 +16,6 @@ public class Inventory : MonoBehaviour
     float lerpTimer = 0;
     RectTransform position;
     public GameObject[] slots = new GameObject[4], items = new GameObject[5];
-    public int currentEmpty = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -151,6 +150,7 @@ public class Inventory : MonoBehaviour
             {
                 items[i].SetActive(false);
                 items[i].GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                selectedItem = "";
             }
         }
     }
@@ -176,5 +176,11 @@ public class Inventory : MonoBehaviour
         }
 
         return true;
+    }
+
+    public Vector2 GetEmptySlotPosition()
+    {
+        RectTransform position = slots[EmptySlotLocation()].GetComponent<RectTransform>();
+        return Camera.main.WorldToScreenPoint(position.position);
     }
 }

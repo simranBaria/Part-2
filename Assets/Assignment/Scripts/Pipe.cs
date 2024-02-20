@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
-    public GameObject inventory;
+    public GameObject inventory, clipboard;
     public bool pipeFixed = false;
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class Pipe : MonoBehaviour
         // The pipe is fixed
         if(pipeFixed)
         {
-            Debug.Log("The pipe is fixed");
+            clipboard.SendMessage("ChangeText", "The pipe is fixed.");
             return;
         }
 
@@ -35,12 +35,12 @@ public class Pipe : MonoBehaviour
         {
             // Fix the pipe
             pipeFixed = true;
-            Debug.Log("You fixed the pipe");
+            clipboard.SendMessage("ChangeText", "You fixed the pipe.");
             inventory.GetComponent<Inventory>().RemoveItem("Wrench");
         }
         else
         {
-            Debug.Log("The pipe is broken");
+            clipboard.SendMessage("ChangeText", "The pipe is broken.");
         }
     }
 }

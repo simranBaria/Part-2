@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Vent : MonoBehaviour
 {
-    public GameObject inventory, beaker;
+    public GameObject inventory, beaker, clipboard, key;
     public bool open = false;
     SpriteRenderer sr;
     public Sprite closedSprite, openSprite;
@@ -30,8 +30,10 @@ public class Vent : MonoBehaviour
     {
         if(open && !keyTaken)
         {
-            inventory.GetComponent<Inventory>().AddItem("Key");
             keyTaken = true;
+            key.SetActive(true);
+            key.SendMessage("ShowItem", true);
+            return;
         }
 
         // Check if the beaker is selected
@@ -39,13 +41,13 @@ public class Vent : MonoBehaviour
         {
             // Melt the bars
             open = true;
-            Debug.Log("You melted the bars");
+            clipboard.SendMessage("ChangeText", "You melted the bars.");
             sr.sprite = openSprite;
             inventory.GetComponent<Inventory>().RemoveItem("Beaker");
         }
         else
         {
-            Debug.Log("There's a key behind the bars");
+            clipboard.SendMessage("ChangeText", "There's a key behind the bars.");
         }
     }
 }

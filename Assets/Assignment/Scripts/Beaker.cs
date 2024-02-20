@@ -7,7 +7,7 @@ using UnityEngine;
 public class Beaker : MonoBehaviour
 {
     public Sprite beakerSprite, waterSprite, acidSprite;
-    public GameObject icon, inventory;
+    public GameObject icon, inventory, clipboard;
     Image image;
     public bool empty, filledWithWater, filledWithAcid;
 
@@ -34,7 +34,7 @@ public class Beaker : MonoBehaviour
             empty = false;
             filledWithWater = true;
             image.sprite = waterSprite;
-            Debug.Log("You filled the beaker with water");
+            clipboard.SendMessage("ChangeText", "You filled the beaker with water.");
         }
     }
 
@@ -45,7 +45,7 @@ public class Beaker : MonoBehaviour
             filledWithWater = false;
             filledWithAcid = true;
             image.sprite = acidSprite;
-            Debug.Log("You created hydrochloric acid");
+            clipboard.SendMessage("ChangeText", "You created hydrochloric acid.");
             SendMessage("SetDeactivated", false);
             inventory.GetComponent<Inventory>().RemoveItem("Acid");
         }

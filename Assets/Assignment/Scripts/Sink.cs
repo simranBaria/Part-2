@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Sink : MonoBehaviour
 {
-    public GameObject inventory, pipe, beaker;
+    public GameObject inventory, pipe, beaker, clipboard;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +33,12 @@ public class Sink : MonoBehaviour
             }
             else
             {
-                Debug.Log("The water is running now");
+                clipboard.SendMessage("ChangeText", "The water is running now.");
             }
         }
         else
         {
-            Debug.Log("The sink isn't working");
+            clipboard.SendMessage("ChangeText", "The sink isn't working.");
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Handle : MonoBehaviour
 {
-    public GameObject inventory;
+    public GameObject inventory, clipboard, manager;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +24,11 @@ public class Handle : MonoBehaviour
     {
         if (inventory.GetComponent<Inventory>().selectedItem.Equals("Key"))
         {
-            Debug.Log("You escaped!");
+            manager.SendMessage("NextScene");
         }
         else
         {
-            Debug.Log("The door is locked");
+            clipboard.SendMessage("ChangeText", "The door is locked.");
         }
     }
 }

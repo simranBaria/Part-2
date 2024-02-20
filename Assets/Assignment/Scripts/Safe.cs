@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Safe : MonoBehaviour
 {
+    public GameObject clipboard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,7 @@ public class Safe : MonoBehaviour
         // Check if the safe is locked
         if(gameObject.GetComponent<OpenItem>().locked)
         {
-            Debug.Log("The safe is locked");
+            clipboard.SendMessage("ChangeText", "The safe is locked.");
         }
     }
 }

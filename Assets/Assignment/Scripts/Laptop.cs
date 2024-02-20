@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Laptop : MonoBehaviour
 {
-    public GameObject inventory, safe;
+    public GameObject inventory, safe, clipboard;
     public bool unlocked = false;
     SpriteRenderer sr;
     public Sprite offSprite, onSprite;
@@ -30,7 +30,7 @@ public class Laptop : MonoBehaviour
         if (unlocked)
         {
             // Unlock the safe
-            Debug.Log("The laptop has a safe code");
+            clipboard.SendMessage("ChangeText", "You found a safe code in the laptop's files.");
             safe.GetComponent<OpenItem>().locked = false;
             return;
         }
@@ -40,13 +40,13 @@ public class Laptop : MonoBehaviour
         {
             // Unlock the laptop
             unlocked = true;
-            Debug.Log("You turned on the laptop");
+            clipboard.SendMessage("ChangeText", "You turned on the laptop.");
             sr.sprite = onSprite;
             inventory.GetComponent<Inventory>().RemoveItem("Password");
         }
         else
         {
-            Debug.Log("You don't know the password");
+            clipboard.SendMessage("ChangeText", "You don't know the password.");
         }
     }
 }
