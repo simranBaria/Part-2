@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     Vector2 direction;
     public TextMeshProUGUI scoreText;
     public static Player selectedPlayer { get; private set; }
+    public static int score { get; private set; }
 
     public static void SetSelectedPlayer(Player player)
     {
@@ -39,7 +40,7 @@ public class Controller : MonoBehaviour
 
     private void Update()
     {
-        scoreText.text = Ball.score.ToString();
+        scoreText.text = score.ToString();
         if (selectedPlayer == null) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -59,5 +60,10 @@ public class Controller : MonoBehaviour
         {
             direction = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)selectedPlayer.transform.position).normalized * charge;
         }
+    }
+
+    public static void SetScore(int newScore)
+    {
+        score = newScore;
     }
 }

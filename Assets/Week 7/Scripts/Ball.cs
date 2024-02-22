@@ -9,12 +9,11 @@ public class Ball : MonoBehaviour
 {
     public GameObject kickOffPoint;
     Rigidbody2D rb;
-    public static int score { get; private set; }
 
     void Start()
     {
         SetPosition(kickOffPoint.transform);
-        score = 0;
+        Controller.SetScore(0);
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -22,7 +21,7 @@ public class Ball : MonoBehaviour
     {
         SetPosition(kickOffPoint.transform);
         rb.velocity = Vector2.zero;
-        score++;
+        Controller.SetScore(Controller.score + 1);
     }
 
     public void SetPosition(Transform position)
