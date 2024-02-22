@@ -8,7 +8,8 @@ public class GoalkeeperController : MonoBehaviour
 {
     public GameObject goalkeeper;
     Rigidbody2D rb;
-    public float speed = 10;
+    Vector2 destination;
+    float speed = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,16 +18,11 @@ public class GoalkeeperController : MonoBehaviour
         goalkeeper.transform.position = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if (Controller.selectedPlayer == null) return;
-        rb.position = (GetPlayerPosition() + (Vector2)transform.position) / 2;
+        destination = (GetPlayerPosition() + (Vector2)transform.position) / 2;
+        rb.position = Vector2.MoveTowards(rb.position, destination, speed);
     }
 
     public Vector2 GetPlayerPosition()
