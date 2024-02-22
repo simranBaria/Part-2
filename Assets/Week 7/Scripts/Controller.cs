@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
+using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Controller : MonoBehaviour
     float charge;
     public float maxCharge = 1;
     Vector2 direction;
+    public TextMeshProUGUI scoreText;
     public static Player selectedPlayer { get; private set; }
 
     public static void SetSelectedPlayer(Player player)
@@ -37,6 +39,7 @@ public class Controller : MonoBehaviour
 
     private void Update()
     {
+        scoreText.text = Ball.score.ToString();
         if (selectedPlayer == null) return;
 
         if (Input.GetKeyDown(KeyCode.Space))
